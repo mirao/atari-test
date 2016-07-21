@@ -1,0 +1,26 @@
+10 ; fill screen by chars
+20     *=  $3400
+30     .opt obj
+40 ch = 764
+50 RUNAD = $2E0
+60 savmsc = $58
+70 enter = $9b
+80 start   
+90     ldy #0
+100 readchr    
+110     lda chars,y
+120     cmp #ENTER
+130     beq check
+140     sta (savmsc),y
+150     iny
+160     jmp readchr
+170 check 
+180     LDA #255
+190     CMP ch
+200     BEQ check
+210     STA ch
+220     RTS
+230 chars .sbyte "*Warning* Removing existing file on Atari disk image."
+240     .byte ENTER
+250     *= RUNAD
+260     .WORD start

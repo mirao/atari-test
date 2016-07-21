@@ -1,0 +1,22 @@
+10 ;LIST #H6:COLOR.ASM
+20 ;ASM,,#H1:COLOR.OBJ
+30 ;Changes background color
+40 ;and waits for key
+50 ;In DOS use H1:COLOR.OBJ/N if you
+60 ;don't want run the program
+70 ;after loading
+80    *= $3400
+90 RUNAD=$2E0
+0100 COLOR2=710
+0110 CH=764
+0120 START
+0130   LDA #$90
+0140   STA COLOR2
+0150 CHECK
+0160   LDA #255
+0170   CMP CH
+0180   BEQ CHECK
+0190   STA CH
+0200   RTS
+0210    *= RUNAD
+0220  .WORD START
