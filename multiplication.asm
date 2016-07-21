@@ -1,7 +1,10 @@
     *= $3400
+    .include math.asm
+    multiply 209, 123 ; multiply two numbers
+    hexToDec ; convert the product to string of decimal digits
+
+; wait for key press
 CH = 764
-    .include multiply.asm
-    multiply 200, 3
 key     lda #$FF
         cmp CH
         beq key
