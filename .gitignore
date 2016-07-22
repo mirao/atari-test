@@ -1,2 +1,5 @@
 *.65o
+*.obx
+*.com
 *.lab
+*.lst
