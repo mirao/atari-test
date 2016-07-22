@@ -1,3 +1,6 @@
+; define maths for check of nested include
+math
+
     .macro multiply
     ; multiply two 8-bit numbers
     ; input: two numbers %1, %2
@@ -35,10 +38,11 @@ mul2 .ds 1
 end
     .endm
 
+decDigitCnt = 5
     .macro hexToDec
     ; convert word to decimal digits
     ; input: word in registers x, y (LOW, HIGH)
-    ; output: five digits in location "decimal" (from highest to lowest)
+    ; output: five decimal digits in location %1 (from highest to lowest)
     stx wordnum
     sty wordnum + 1
     ldy #0 ; decimal base index, used for subtraction
@@ -47,7 +51,7 @@ nextDigit
 isBaseGreater    
     lda wordnum + 1
     cmp decbases + 1, y
-    bcc nextbase
+    bcc nextbase ; base is higher, go to lower base
     bne subtractBase
     lda wordnum
     cmp decbases, y
@@ -67,9 +71,9 @@ nextBase
     lsr
     tay
     txa
-    sta decimal, y
+    sta %1, y ; save decimal digit
     iny
-    cpy #5
+    cpy #decDigitCnt ; are we done with all digits?
     beq end
     tya
     asl
@@ -77,7 +81,6 @@ nextBase
     bpl nextDigit; always jump and process next digit
 
 decbases .byte <10000, >10000, <1000, >1000, <100, >100, <10, >10, <1, >1
-decimal .ds 5
 wordnum .ds 2    
 end
     .endm
