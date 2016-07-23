@@ -1,0 +1,5 @@
+    .macro majne
+COLOR=710
+        mvx #:1 COLOR
+lejbl   nop
+    .endm
