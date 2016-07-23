@@ -1,25 +1,32 @@
-    .include copy.asm
-    .if .not .def math
-        .include math.asm
+    icl "string.asm"
+    .ifndef math
+        icl "math.asm"
     .endif
 
-    .macro makeDigitsPrintable
+    .macro makeDigitsPrintable (decimal)
     ; make decimal digits printable
-    ; input: %1: location of 5-decimal digit string
-    hexToDec %1 ; convert number to string having decimal digits
-    ldy #decDigitCnt-1
+    ; input: word in registers x, y (LOW, HIGH)
+    ; output: decimal - indirect location of 5-decimal digit string
+    ; output: register X - 1st position after relocated number == length of new numbers
+    
+    hexToDec :decimal ; convert number to string having decimal digits
+    trimZero :decimal, decDigitCnt
+
+    txa
+    tay
+    dey
 makePrintable
-    lda %1, y
+    lda (:decimal), y
     ora #$10
-    sta %1, y
+    sta (:decimal), y
     dey
     bpl makePrintable
     .endm    
 
-savmsc = $58
-    .macro printStr
+    .macro printStr (string, length)
     ; print string on screen in GRAPHICS 0
-    ; input: %1 - location of string
-    ;        %2 - length in bytes
-    copy %1, savmsc, %2
+    ; input: string - indirect location of string
+    ;        length - location with length in bytes
+savmsc = $58
+    copy :string, savmsc, :length
     .endm

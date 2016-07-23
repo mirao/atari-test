@@ -1,9 +1,9 @@
-; define maths for check of nested include
+; define label "maths" to prevent multiple include of this module
 math
 
-    .macro multiply
+    .macro multiply (num1, num2)
     ; multiply two 8-bit numbers
-    ; input: two numbers %1, %2
+    ; input: two numbers num1, num2
     ; output: result in registers x,y (LOW, HIGH)
     ; example: "multiple 200,3" produces X=$58, Y=$02 (result $0258=600)
 
@@ -11,9 +11,9 @@ math
     ldx #0
     ldy #0
     sta mul1 + 1
-    lda #%1
+    lda #:num1
     sta mul1 ; store 1st multiplier
-    lda #%2
+    lda #:num2
     sta mul2 ; store 2nd multiplier
 start    
     lda mul2 
@@ -39,10 +39,10 @@ end
     .endm
 
 decDigitCnt = 5
-    .macro hexToDec
+    .macro hexToDec (decimal)
     ; convert word to decimal digits
     ; input: word in registers x, y (LOW, HIGH)
-    ; output: five decimal digits in location %1 (from highest to lowest)
+    ; output: five decimal digits in indirect location "decimal" (from highest to lowest)
     stx wordnum
     sty wordnum + 1
     ldy #0 ; decimal base index, used for subtraction
@@ -71,7 +71,7 @@ nextBase
     lsr
     tay
     txa
-    sta %1, y ; save decimal digit
+    sta (:decimal), y ; save decimal digit
     iny
     cpy #decDigitCnt ; are we done with all digits?
     beq end
