@@ -20,7 +20,7 @@ explocCur = explocStart + 2; ; indirect location equation, current position
     lda #"*" ; store sign for multiplication
     ldy #0
     sta (explocCur), y
-    inw explocCur
+    inw explocCur ; shift one char forward in memory
 
     ldx #<num2
     ldy #>num2
@@ -30,7 +30,7 @@ explocCur = explocStart + 2; ; indirect location equation, current position
     lda #"=" ; store equation sign
     ldy #0
     sta (explocCur), y
-    inw explocCur
+    inw explocCur ; shift one char forward in memory
     
     multiply num1, num2 ; multiply two numbers
     makeDigitsPrintable explocCur
