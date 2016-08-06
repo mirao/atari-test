@@ -1,4 +1,4 @@
-; define label "maths" to prevent multiple include of this module
+; define label "math" to prevent multiple include of this module
 math
 
     .macro multiply (num1, num2)
