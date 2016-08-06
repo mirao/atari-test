@@ -1,5 +1,5 @@
-    .macro majne
+majne .macro col
 COLOR=710
-        mvx #:1 COLOR
+        mvx #:col COLOR
 lejbl   nop
     .endm
