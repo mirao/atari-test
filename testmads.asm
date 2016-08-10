@@ -1,8 +1,87 @@
     oPt s+
     ORG $3400
 
+    .byte $45
+    .dbyte $a230
+    .word $a230
+    .dword $a2305611
+    .long $a23031
+    end
+
+
+    .get "twobytes.bin"
+    .print .get[0], " ", .get[1]
+    .print .wget[0]
+    .print .lget[0]
+    .print .dget[0]
+
+.echo .filesize "my.txt"
+.print .sizeof miraloc
+.local miraloc
+    lda $1234
+    BRK
+    nop
+.endl
+
+.macro miram
+    lda #2
+    .exitm
+    lda #3
+.endm
+    miram
+.def ?@stack_offset = 2
+    lda ($80 , x)
+    lda ($80) , y
+    lda #{dey}
+    dey
+rowcrs	= $54		; Wiersz  kursora
+colcrs	= $55		; (2) Kolumna kursora
+.var ax .word
+.var y, x1 .byte
+
+    POSITION #300, #$10
+    rts
+
+.proc POSITION,$4000 (.word ax .byte y) .reg
+	sty rowcrs
+	stx colcrs
+	and #1
+	sta colcrs+1
+	rts
+
+.endp
+
+komentar *jiste coze
+pata = 0
+
+.local
+abs	equ	$89AB
+zp	equ	$7F
+imm	equ	$F7
+
+aj dop #imm	; 80 nn
+    dop zp		; 44 nn
+	dop zp,x	; 54 nn
+
+	top	abs	; 0C nn nn
+	top	abs,x	; 1C nn nn
+.endl    
+MADS=$2000
+    lda #>MADS
+beznam2=$4523    
+jiste    run beznam2
+ ini beznam2 + 1
+; .reloc .byte
+
+    lda #1
+    sta 752
+    rts
+    
+.align $9, 12 
+    lda #2
     dta $20, $f
     dta a(beznam)
+    
 beznam=$4523    
     lmb #5
 label5
@@ -120,7 +199,7 @@ tmp lda #$00
     
         lda $ffff,x
         ldx $ffff,y
-
+        lda (12), y
     .endl
     
     lda temp
@@ -341,10 +420,7 @@ label2:1 mva #0 $d012+#
 ; retez
 /* jiste 
 www */
-*neco
-ret              *zajimave
-ret2*zajimave
-    
+
     asl
     asl @
     lda#
