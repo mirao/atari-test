@@ -1,15 +1,15 @@
     oPt s+
     ORG $3400
 
+    .by >$1234, <$1234 ; == .dword
     .byte $45
     .dbyte $a230
     .word $a230
     .dword $a2305611
     .long $a23031
-    end
-
 
     .get "twobytes.bin"
+    .xget "twobytes.bin"
     .print .get[0], " ", .get[1]
     .print .wget[0]
     .print .lget[0]
