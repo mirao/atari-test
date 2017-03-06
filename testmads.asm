@@ -29,6 +29,27 @@
     lda #3
 .endm
     miram
+
+    .macro test currentRow, previousRow
+        .print Tmp%%currentRowAllowed
+        .print Tmp%%previousRowAllowed
+    .endm
+tmp10allowed = 10
+tmp11allowed = 11
+
+    test 10, 11
+.define poke mva #%%2 %%1
+    poke(712, 100)
+    .define poke mva #%%1 712
+    poke(100)
+    .undef poke
+    .define text .sb
+    text 'atari'
+    .define pisz %%1+%%2
+    .print pisz(712, 100)
+    .define pisz %%1-%%2
+    .print pisz(712, 100)
+
 .def ?@stack_offset = 2
     lda ($80 , x)
     lda ($80) , y
